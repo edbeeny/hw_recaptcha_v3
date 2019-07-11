@@ -7,9 +7,12 @@ use Concrete\Core\Http\ResponseAssetGroup;
 use Concrete\Core\Package\Package;
 use Concrete\Core\Package\PackageService;
 use Concrete\Core\Support\Facade\Config;
+use Concrete\Core\Utility\IPAddress;
 use Concrete\Core\View\View;
 use Concrete\Core\Asset\AssetList;
 use Concrete\Core\Support\Facade\Log;
+use Concrete\Core\Support\Facade\Application;
+use Concrete\Core\Http\Request;
 
 class RecaptchaV3Controller implements CaptchaInterface
 
@@ -76,10 +79,14 @@ class RecaptchaV3Controller implements CaptchaInterface
     public function check()
     {
 
+        $app = Application::getFacadeApplication();
+        $r = Request::getInstance();
+
         $qsa = http_build_query(
             array(
                 'secret' => Config::get('hw_recaptcha.secret_key'),
-                'response' => $_REQUEST['g-recaptcha-response'],
+                'remoteip' => $app->make('ip')->getRequestIPAddress(),
+                'response' =>  $r->request->get('g-recaptcha-response'),
             )
         );
 
@@ -91,10 +98,7 @@ class RecaptchaV3Controller implements CaptchaInterface
 
             // Check if there is a username/password to access the proxy
             if (Config::get('concrete.proxy.user') != null) {
-                curl_setopt(
-                    $ch,
-                    CURLOPT_PROXYUSERPWD,
-                    Config::get('concrete.proxy.user') . ':' . Config::get('concrete.proxy.password')
+                curl_setopt($ch, CURLOPT_PROXYUSERPWD, Config::get('concrete.proxy.user') . ':' . Config::get('concrete.proxy.password')
                 );
             }
         }
