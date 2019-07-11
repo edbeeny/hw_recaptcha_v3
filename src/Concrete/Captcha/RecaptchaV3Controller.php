@@ -4,11 +4,8 @@ namespace Concrete\Package\HwRecaptchaV3\Captcha;
 
 use Concrete\Core\Captcha\CaptchaInterface as CaptchaInterface;
 use Concrete\Core\Http\ResponseAssetGroup;
-use Concrete\Core\Package\Package;
-use Concrete\Core\Package\PackageService;
+use Concrete\Core\Permission\IPService;
 use Concrete\Core\Support\Facade\Config;
-use Concrete\Core\Utility\IPAddress;
-use Concrete\Core\View\View;
 use Concrete\Core\Asset\AssetList;
 use Concrete\Core\Support\Facade\Log;
 use Concrete\Core\Support\Facade\Application;
@@ -82,11 +79,13 @@ class RecaptchaV3Controller implements CaptchaInterface
         $app = Application::getFacadeApplication();
         $r = Request::getInstance();
 
+        $iph = (string) $app->make(IPService::class)->getRequestIPAddress();
+
         $qsa = http_build_query(
             array(
                 'secret' => Config::get('hw_recaptcha.secret_key'),
-                'remoteip' => $app->make('ip')->getRequestIPAddress(),
-                'response' =>  $r->request->get('g-recaptcha-response'),
+                'remoteip' => $iph,
+                'response' =>  $r->request->get('g-recaptcha-response')
             )
         );
 
