@@ -19,3 +19,9 @@ $form = Core::make('helper/form');
     <?php  echo  $form->label('secret', t('Secret Key')) ?>
     <?php  echo  $form->text('secret', Config::get('hw_recaptcha.secret_key', '')) ?>
 </div>
+
+<div class="form-group">
+    <p><?= t('Set the score threshold between 0.0 and 1.0. (0.0 being a bot)')?></p>
+    <?php  echo  $form->label('score', t('Score')) ?>
+    <?php  echo  $form->text('score', Config::get('hw_recaptcha.score', '0.5')) ?>
+</div>
