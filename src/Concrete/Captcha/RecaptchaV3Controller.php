@@ -111,7 +111,13 @@ class RecaptchaV3Controller implements CaptchaInterface
             if (isset($data['error-codes']) && (in_array('missing-input-secret', $data['error-codes']) || in_array('invalid-input-secret', $data['error-codes']))) {
                 Log::addError(t('The reCAPTCHA secret parameter is invalid or malformed.'));
             }
-            return $data['success'];
+
+            if ($data['success'] == true && $data['score'] > Config::get('hw_recaptcha.score')) {
+                return true;
+            } else {
+                return false;
+
+            }
         } else {
             Log::addError(t('Error loading reCAPTCHA: %s', curl_error($ch)));
             return false;
@@ -119,10 +125,12 @@ class RecaptchaV3Controller implements CaptchaInterface
     }
 
 
-    public function saveOptions($data)
+    public
+    function saveOptions($data)
     {
 
         Config::save('hw_recaptcha . site_key', $data['site']);
         Config::save('hw_recaptcha . secret_key', $data['secret']);
+        Config::save('hw_recaptcha.score', $data['score']);
     }
 }
