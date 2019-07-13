@@ -133,8 +133,8 @@ class RecaptchaV3Controller implements CaptchaInterface
     function saveOptions($data)
     {
 
-        Config::save('hw_recaptcha . site_key', $data['site']);
-        Config::save('hw_recaptcha . secret_key', $data['secret']);
+        Config::save('hw_recaptcha.site_key', $data['site']);
+        Config::save('hw_recaptcha.secret_key', $data['secret']);
         Config::save('hw_recaptcha.score', $data['score']);
         Config::save('hw_recaptcha.position', $data['position']);
     }
