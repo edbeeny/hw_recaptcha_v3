@@ -26,3 +26,16 @@ $form = $app->make('helper/form');
     <?php  echo  $form->label('score', t('Score')) ?>
     <?php  echo  $form->text('score', Config::get('hw_recaptcha.score', '0.5')) ?>
 </div>
+
+<div class="form-group">
+    <p><?= t('Set the position of the reCAPTCHA badge.')?></p>
+    <?php  echo  $form->label('position', t('Position')) ?>
+    <?php  echo  $form->select(
+            'position',
+             array(
+            'bottomright' => t('Bottom Right'),
+            'bottomleft' => t('Bottom Left'),
+            'inline' => t('Inline'),
+            ),
+            Config::get('hw_recaptcha.position', 'bottomright')) ?>
+</div>
