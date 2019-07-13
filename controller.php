@@ -11,7 +11,7 @@ class Controller extends Package
 {
     protected $pkgHandle = 'hw_recaptcha_v3';
     protected $appVersionRequired = '8.0';
-    protected $pkgVersion = '0.9.2';
+    protected $pkgVersion = '0.9.3';
 
     protected $logger;
 
