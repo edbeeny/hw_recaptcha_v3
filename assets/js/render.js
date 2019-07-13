@@ -1,8 +1,9 @@
 function hwRecaptcha() {
     var siteKey = document.getElementById("recaptchaKey").value;
+    var logoPosition = document.getElementById("logoPosition").value;
     var clientId = grecaptcha.render('grecaptcha-box', {
         'sitekey': siteKey,
-        'badge': 'inline',
+        'badge': logoPosition,
         'size': 'invisible'
     });
 
