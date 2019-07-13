@@ -116,7 +116,7 @@ class RecaptchaV3Controller implements CaptchaInterface
                 Log::addError(t('The reCAPTCHA secret parameter is invalid or malformed.'));
             }
 
-            if ($data['success'] == true && $data['score'] > Config::get('hw_recaptcha.score') && $data['action'] == 'submit')) {
+            if ($data['success'] == true && $data['score'] > Config::get('hw_recaptcha.score') && $data['action'] == 'submit') {
                 return true;
             } else {
                 return false;
