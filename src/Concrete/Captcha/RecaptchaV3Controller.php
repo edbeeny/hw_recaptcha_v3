@@ -53,6 +53,7 @@ class RecaptchaV3Controller implements CaptchaInterface
         $responseAssets->requireAsset('hw_recaptcha_v3');
 
         echo '<input type="hidden" name="recaptcha_key" id="recaptchaKey" value="' . Config::get('hw_recaptcha.site_key') . '">';
+        echo '<input type="hidden" name="recaptcha_position" id="logoPosition" value="' . Config::get('hw_recaptcha.position') . '">';
         echo '<div id="grecaptcha-box"></div>';
 
 
@@ -135,5 +136,6 @@ class RecaptchaV3Controller implements CaptchaInterface
         Config::save('hw_recaptcha . site_key', $data['site']);
         Config::save('hw_recaptcha . secret_key', $data['secret']);
         Config::save('hw_recaptcha.score', $data['score']);
+        Config::save('hw_recaptcha.position', $data['position']);
     }
 }
