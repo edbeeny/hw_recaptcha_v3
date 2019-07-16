@@ -31,7 +31,7 @@ class Controller extends Package
     public function install()
     {
         $pkg = parent::install();
-        CaptchaLibrary::add('recaptchaV3', t('reCAPTCHAv3'), $pkg);
+        CaptchaLibrary::add('hwRecaptchaV3', t('reCAPTCHAv3'), $pkg);
         return $pkg;
     }
 
