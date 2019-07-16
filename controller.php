@@ -10,7 +10,7 @@ use Concrete\Core\Captcha\Library as CaptchaLibrary;
 class Controller extends Package
 {
     protected $pkgHandle = 'hw_recaptcha_v3';
-    protected $appVersionRequired = '8.0';
+    protected $appVersionRequired = '8.3.0';
     protected $pkgVersion = '0.9.4';
 
     protected $logger;
