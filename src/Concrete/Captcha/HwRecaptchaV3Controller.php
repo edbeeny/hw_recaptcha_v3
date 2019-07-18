@@ -35,7 +35,7 @@ class HwRecaptchaV3Controller implements CaptchaInterface
 
         $assetList = AssetList::getInstance();
 
-        $assetUrl = 'https://www.google.com/recaptcha/api.js?onload=hwRecaptcha&render=explicit';
+        $assetUrl = 'https://www.google.com/recaptcha/api.js?onload=hwRecaptcha&render=explicit async defer';
 
         $assetList->register('javascript', 'hw_recaptcha_api', $assetUrl, array('local' => false));
         $assetList->register('javascript', 'hw_recaptcha_render', 'assets/js/render.js', array(), 'hw_recaptcha_v3');
@@ -52,10 +52,7 @@ class HwRecaptchaV3Controller implements CaptchaInterface
         $responseAssets = ResponseAssetGroup::get();
         $responseAssets->requireAsset('hw_recaptcha_v3');
 
-        echo '<input type="hidden" name="recaptcha_key" id="recaptchaKey" value="' . Config::get('hw_recaptcha.site_key') . '">';
-        echo '<input type="hidden" name="recaptcha_position" id="badgePosition" value="' . Config::get('hw_recaptcha.position') . '">';
-        echo '<div id="grecaptcha-box"></div>';
-
+        echo '<div id="' . uniqid('hwh') . '" class="grecaptcha-box hwRecaptcha" data-sitekey="' . Config::get('hw_recaptcha.site_key') . '" data-badge="' . Config::get('hw_recaptcha.position') . '"></div>';
     }
 
     /**
@@ -110,7 +107,6 @@ class HwRecaptchaV3Controller implements CaptchaInterface
 
         if ($response !== false) {
             $data = json_decode($response, true);
-
 
             if (isset($data['error-codes']) && (in_array('missing-input-secret', $data['error-codes']) || in_array('invalid-input-secret', $data['error-codes']))) {
                 Log::addError(t('The reCAPTCHA secret parameter is invalid or malformed.'));
