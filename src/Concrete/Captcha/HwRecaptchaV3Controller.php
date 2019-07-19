@@ -32,7 +32,7 @@ class HwRecaptchaV3Controller implements CaptchaInterface
     {
         $assetList = AssetList::getInstance();
 
-        $assetUrl = 'https://www.google.com/recaptcha/api.js?onload=hwRecaptcha&render=explicit async defer';
+        $assetUrl = 'https://www.google.com/recaptcha/api.js?onload=hwRecaptcha&render=explicit';
 
         $assetList->register('javascript', 'hw_recaptcha_api', $assetUrl, array('local' => false));
         $assetList->register('javascript', 'hw_recaptcha_render', 'assets/js/render.js', array(), 'hw_recaptcha_v3');
@@ -73,9 +73,11 @@ class HwRecaptchaV3Controller implements CaptchaInterface
 
         $app = Application::getFacadeApplication();
         $r = Request::getInstance();
+        $iph = '';
 
-
-        $iph = (string)$app->make(IPService::class)->getRequestIPAddress();
+        if (Config::get('hw_recaptcha.sendIP') == "yes") {
+            $iph = (string)$app->make(IPService::class)->getRequestIPAddress();
+        }
 
         $qsa = http_build_query(
             array(
@@ -133,7 +135,7 @@ class HwRecaptchaV3Controller implements CaptchaInterface
             return false;
         }
     }
-    
+
     public function saveOptions($data)
     {
         Config::save('hw_recaptcha.site_key', $data['site']);
@@ -141,5 +143,6 @@ class HwRecaptchaV3Controller implements CaptchaInterface
         Config::save('hw_recaptcha.score', $data['score']);
         Config::save('hw_recaptcha.position', $data['position']);
         Config::save('hw_recaptcha.logscore', $data['logscore']);
+        Config::save('hw_recaptcha.sendIP', $data['sendip']);
     }
 }
