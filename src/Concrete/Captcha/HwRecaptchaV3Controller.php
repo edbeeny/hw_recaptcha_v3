@@ -12,9 +12,7 @@ use Concrete\Core\Support\Facade\Application;
 use Concrete\Core\Http\Request;
 
 class HwRecaptchaV3Controller implements CaptchaInterface
-
 {
-
     /**
      * {@inheritdoc}
      *
@@ -32,14 +30,12 @@ class HwRecaptchaV3Controller implements CaptchaInterface
      */
     public function showInput()
     {
-
         $assetList = AssetList::getInstance();
 
         $assetUrl = 'https://www.google.com/recaptcha/api.js?onload=hwRecaptcha&render=explicit async defer';
 
         $assetList->register('javascript', 'hw_recaptcha_api', $assetUrl, array('local' => false));
         $assetList->register('javascript', 'hw_recaptcha_render', 'assets/js/render.js', array(), 'hw_recaptcha_v3');
-
 
         $assetList->registerGroup(
             'hw_recaptcha_v3',
@@ -52,7 +48,9 @@ class HwRecaptchaV3Controller implements CaptchaInterface
         $responseAssets = ResponseAssetGroup::get();
         $responseAssets->requireAsset('hw_recaptcha_v3');
 
+
         echo '<div id="' . uniqid('hwh') . '" class="grecaptcha-box hwRecaptcha" data-sitekey="' . Config::get('hw_recaptcha.site_key') . '" data-badge="' . Config::get('hw_recaptcha.position') . '"></div>';
+
     }
 
     /**
@@ -115,7 +113,6 @@ class HwRecaptchaV3Controller implements CaptchaInterface
             if ($data['success'] == true && Config::get('hw_recaptcha.score') <= $data['score'] && $data['action'] == 'submit') {
                 return true;
             } else {
-
                 if (Config::get('hw_recaptcha.logscore') == 1 && Config::get('hw_recaptcha.score') >= $data['score']) {
                     $formmessage = $r->request->all();
                     if (isset($formmessage['recaptcha_key'])) {
@@ -127,23 +124,18 @@ class HwRecaptchaV3Controller implements CaptchaInterface
                     if (isset($formmessage['g-recaptcha-response'])) {
                         unset($formmessage['g-recaptcha-response']);
                     }
-                    Log::addError(t('HWreCAPTCHA captcha blocked as score returned (' . $data['score'] .  ') is below the threshold set (' . Config::get('hw_recaptcha.score') . ') %s', var_export($formmessage, true)));
+                    Log::addError(t('HWreCAPTCHA captcha blocked as score returned (' . $data['score'] . ') is below the threshold set (' . Config::get('hw_recaptcha.score') . ') %s', var_export($formmessage, true)));
                 }
                 return false;
-
-
             }
         } else {
             Log::addError(t('Error loading reCAPTCHA: %s', curl_error($ch)));
             return false;
         }
     }
-
-
-    public
-    function saveOptions($data)
+    
+    public function saveOptions($data)
     {
-
         Config::save('hw_recaptcha.site_key', $data['site']);
         Config::save('hw_recaptcha.secret_key', $data['secret']);
         Config::save('hw_recaptcha.score', $data['score']);
