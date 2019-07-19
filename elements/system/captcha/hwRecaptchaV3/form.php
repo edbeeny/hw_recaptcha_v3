@@ -43,3 +43,15 @@ $form = $app->make('helper/form');
             ),
             Config::get('hw_recaptcha.position', 'bottomright')) ?>
 </div>
+<div class="form-group">
+    <p><?= t('For extra checks you can send the clients IP address to Google. (This will effect your GDPR compliance)'); ?></p>
+    <?php echo $form->label('sendip', t('Send IP')) ?>
+    <?php echo $form->select(
+        'sendip',
+        array(
+            'yes' => t('Yes'),
+            'no' => t('No'),
+        ),
+        Config::get('hw_recaptcha.sendIP', 'no')) ?>
+</div>
+
