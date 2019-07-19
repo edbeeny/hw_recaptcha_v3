@@ -76,7 +76,7 @@ class HwRecaptchaV3Controller implements CaptchaInterface
         $iph = '';
 
         if (Config::get('hw_recaptcha.sendIP') == "yes") {
-             $iph = (string)$this->app->make(IPService::class)->getRequestIPAddress();
+             $iph = (string)$app->make(IPService::class)->getRequestIPAddress();
         }
 
         $qsa = http_build_query(
